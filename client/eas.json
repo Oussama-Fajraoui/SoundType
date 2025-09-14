@@ -4,14 +4,18 @@
     "preview": {
       "distribution": "internal",
       "channel": "preview",
-      "android": { "buildType": "apk" }
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_STT_URL": "https://soundtype-api.onrender.com/speech-to-text"
+      }
     },
     "production": {
       "distribution": "store",
-      "channel": "production"
+      "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_STT_URL": "https://soundtype-api.onrender.com/speech-to-text"
+      }
     }
-  },
-  "submit": {
-    "production": {}
   }
 }
+

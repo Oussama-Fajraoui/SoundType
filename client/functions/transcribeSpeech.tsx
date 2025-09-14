@@ -19,30 +19,26 @@ export const transcribeSpeech = async (
 
   try {
     await Audio.setAudioModeAsync({ allowsRecordingIOS: false, playsInSilentModeIOS: false });
-
-    // ensure stopped
     try { await audioRecordingRef.current.stopAndUnloadAsync(); } catch {}
 
     const recordingUri = audioRecordingRef.current.getURI?.() || "";
-    if (!recordingUri) return undefined;
+    if (!recordingUri) throw new Error("No recording URI available");
 
-    // read audio as base64 (Google expects raw base64 in `audio.content`)
     let base64Audio = "";
     if (Platform.OS === "web") {
-      const blob = await fetch(recordingUri).then((r) => r.blob());
-      const dataUrl = (await readBlobAsBase64(blob)) as string; // "data:...;base64,AAAA"
+      const blob = await fetch(recordingUri).then((res) => res.blob());
+      const dataUrl = (await readBlobAsBase64(blob)) as string;
       base64Audio = dataUrl.split("base64,")[1] ?? "";
     } else {
       base64Audio = await FileSystem.readAsStringAsync(recordingUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
     }
-    if (!base64Audio) return undefined;
+    if (!base64Audio) throw new Error("Failed to read audio as base64");
 
     // ready for next recording
     audioRecordingRef.current = new Audio.Recording();
 
-    // Google STT config
     const audioConfig = {
       encoding:
         Platform.OS === "android" ? "AMR_WB" :
@@ -57,44 +53,40 @@ export const transcribeSpeech = async (
       enableAutomaticPunctuation: true,
     };
 
-    // ---- choose server URL ----
-    const PROD_URL = process.env.EXPO_PUBLIC_STT_URL; 
-    const serverUrl =
-      PROD_URL && PROD_URL.length
-        ? PROD_URL
-        : (() => {
-            const isEmulator = !Device.isDevice;
-            const host =
-              Platform.OS === "android" && isEmulator
-                ? "10.0.2.2"
-                : Device.isDevice
-                ? (process.env.EXPO_PUBLIC_LOCAL_DEV_IP || "localhost")
-                : "localhost";
-            return `http://${host}:4000/speech-to-text`;
-          })();
-
+    // ---- use Render URL; if missing, FAIL (don’t silently call localhost) ----
+    const PROD_URL = process.env.EXPO_PUBLIC_STT_URL;
+    if (!PROD_URL) {
+      throw new Error(
+        "EXPO_PUBLIC_STT_URL is not set in this build. Add it to eas.json (env) or EAS dashboard."
+      );
+    }
+    const serverUrl = PROD_URL; // e.g. https://soundtype-api.onrender.com/speech-to-text
     console.log("STT →", serverUrl);
 
+    // ---- add a timeout so the spinner doesn't hang forever ----
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 10000); // 10s
     const res = await fetch(serverUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ audioUrl: base64Audio, config: audioConfig }),
-    });
+      signal: ctrl.signal,
+    }).finally(() => clearTimeout(t));
 
     if (!res.ok) {
-      console.error("STT HTTP", res.status, await res.text().catch(() => ""));
-      return undefined;
+      const text = await res.text().catch(() => "");
+      throw new Error(`STT HTTP ${res.status}: ${text}`);
     }
 
     const json = await res.json();
 
-    // { text } or Google results
     if (typeof json?.text === "string") return json.text || undefined;
     const transcript =
       json?.results?.map((r: any) => r?.alternatives?.[0]?.transcript).filter(Boolean).join(" ").trim();
     return transcript || undefined;
-  } catch (e) {
+  } catch (e: any) {
     console.error("Failed to transcribe speech!", e);
+    // surface a friendly error to your UI if you want:
     return undefined;
   }
 };
