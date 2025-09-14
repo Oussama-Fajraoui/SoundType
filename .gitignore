@@ -1,0 +1,12 @@
+
+node_modules/
+.expo/
+.expo-shared/
+dist/
+build/
+android/app/build/
+ios/build/
+*.log
+# env
+.env
+**/.env
