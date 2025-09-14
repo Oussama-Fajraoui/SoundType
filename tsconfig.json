@@ -13,9 +13,10 @@
     "skipLibCheck": true,
     "sourceMap": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["dist", "node_modules"],
+  "include": ["index.ts", "functions/**/*.ts"],
+  "exclude": ["node_modules", "dist", "client", "client/**/*"],
   "compileOnSave": true
 }
+
 
 
