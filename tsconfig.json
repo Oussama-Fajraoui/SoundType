@@ -4,7 +4,7 @@
     "lib": ["es2021", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
     "strict": true,
     "noImplicitReturns": true,
@@ -13,7 +13,9 @@
     "skipLibCheck": true,
     "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "node_modules"],
   "compileOnSave": true
 }
+
 
