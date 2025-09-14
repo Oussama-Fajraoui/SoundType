@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 
 export const speechToText = async (req: Request, res: Response) => {
+  
   const data = req.body;
-  const audioUrl = data?.audioUrl;
+  const audioUrl = data?.audioUrl as string | undefined;
   const audioConfig = data?.config;
 
   if (!audioUrl) return res.status(422).send("No audio URL was provided.");

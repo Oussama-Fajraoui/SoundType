@@ -1,14 +1,14 @@
 {
   "name": "speech-to-text",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Minimal STT proxy (Google v1) for RN client",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node index.ts"
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
-  "keywords": [],
-  "author": "",
+  "engines": { "node": ">=18" },
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
