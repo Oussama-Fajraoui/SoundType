@@ -1,42 +1,62 @@
 {
   "expo": {
-    "name": "speech-to-text",
-    "slug": "speech-to-text",
+    "name": "SoundType",
+    "slug": "soundtype",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.oussamagf.speechtotext",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "SoundType needs microphone access to record your voice.",
+        "NSSpeechRecognitionUsageDescription": "SoundType may use speech recognition to convert your voice to text."
+      }
     },
+
     "android": {
+      "package": "com.oussamagf.speechtotext",
+      "permissions": ["RECORD_AUDIO"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "usesCleartextTraffic": false
     },
+
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+
     "plugins": [
       "expo-router",
       [
         "expo-av",
         {
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+          "microphonePermission": "Allow SoundType to access your microphone."
         }
       ]
     ],
+
     "experiments": {
       "typedRoutes": true
+    },
+
+    "extra": {
+      "eas": {
+        "projectId": "254e3f7a-c02f-41f4-8376-41f9a8867d6a"
+      }
     }
   }
 }
