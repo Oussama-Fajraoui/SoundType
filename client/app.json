@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "scheme": "soundtype",
     "runtimeVersion": { "policy": "sdkVersion" },
+
     "android": {
       "package": "com.oussamagf.speechtotext",
       "permissions": ["RECORD_AUDIO"]
@@ -15,7 +16,7 @@
         "NSMicrophoneUsageDescription": "App needs microphone access to transcribe your speech.",
         "NSSpeechRecognitionUsageDescription": "App uses speech recognition to convert your voice to text."
       }
-    },
-    "extra": { "eas": { "projectId": "<leave what EAS set>" } }
+    }
   }
 }
+
