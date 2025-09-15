@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SoundType",
-    "slug": "soundtype",
+    "slug": "speech-to-text",
     "version": "1.0.0",
     "scheme": "soundtype",
     "runtimeVersion": { "policy": "sdkVersion" },
@@ -16,6 +16,6 @@
         "NSSpeechRecognitionUsageDescription": "App uses speech recognition to convert your voice to text."
       }
     },
-    "extra": { "eas": { "projectId": "<will be set by EAS>" } }
+    "extra": { "eas": { "projectId": "<leave what EAS set>" } }
   }
 }

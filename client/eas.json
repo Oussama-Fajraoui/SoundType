@@ -16,6 +16,7 @@
         "EXPO_PUBLIC_STT_URL": "https://soundtype-api.onrender.com/speech-to-text"
       }
     }
-  }
+  },
+  "submit": { "production": {} }
 }
 

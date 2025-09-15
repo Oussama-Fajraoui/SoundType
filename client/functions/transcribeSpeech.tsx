@@ -86,7 +86,6 @@ export const transcribeSpeech = async (
     return transcript || undefined;
   } catch (e: any) {
     console.error("Failed to transcribe speech!", e);
-    // surface a friendly error to your UI if you want:
     return undefined;
   }
 };
