@@ -15,7 +15,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "expo": "^54.0.7",
+    "express": "^4.19.2",
+    "expo-updates": "~29.0.10"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
