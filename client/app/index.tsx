@@ -78,7 +78,7 @@ export default function HomeScreen() {
         <View style={styles.mainInnerContainer}>
           <Text style={styles.title}>Speech-to-Text App</Text>
 
-          {/* NEW: simple inputs to choose languages */}
+          {/* NEW: simple inputs to choose languages
           <View style={{ width: "100%", gap: 10 }}>
             <Text>Primary language (BCP-47, e.g. en-US, fr-FR):</Text>
             <TextInput
@@ -98,7 +98,7 @@ export default function HomeScreen() {
               autoCapitalize="none"
               autoCorrect={false}
             />
-          </View>
+          </View> */}
 
           <View style={styles.transcriptionContainer}>
             {isTranscribing ? (
